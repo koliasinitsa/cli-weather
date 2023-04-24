@@ -1,7 +1,7 @@
 import {homedir} from 'os';
 import {join} from 'path';
 import { promises} from 'fs';
-import { isUndefined } from 'util';
+
 
 const filePath = join(homedir(), 'weather-data.json');
 
@@ -24,15 +24,15 @@ const saveKeyValue = async (key, value) => {
 const getKeyValue = async (key) => {
     if(await isExist(filePath)) {
         const file = await promises.readFile(filePath);
-        data = JSON.parse(file);
+        const data = JSON.parse(file);
         return data[key];
     }
-    return isUndefined;
+    return undefined;
 };
 
 const isExist = async (path) => {
     try {
-        await promises.start(path);
+        await promises.stat(path);
         return true;
     } catch (e) {
         return false;
